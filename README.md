@@ -1,3 +1,3 @@
-# @plcmp/pl-textarea
+# @plcmp/pl-tabpanel
 
-Simple textarea component
+Simple tabpanel with tabs
