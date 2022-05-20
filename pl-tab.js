@@ -4,7 +4,7 @@ class PlTab extends PlElement {
 	static get properties() {
 		return {
 			header: { type: String },
-			active: { type: Boolean, reflectToAttribute: true },
+			selected: { type: Boolean, reflectToAttribute: true },
 			hidden: { type: Boolean, reflectToAttribute: true }
 		}
 	}

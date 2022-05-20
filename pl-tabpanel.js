@@ -7,7 +7,7 @@ class PlTabPanel extends PlElement {
     static get properties() {
         return {
             _tabs: { type: Array, value: () => [] },
-            active: { type: Number, value: 0 }
+            selected: { type: Number, value: 0 }
         }
     }
     static get css() {
@@ -54,7 +54,7 @@ class PlTabPanel extends PlElement {
                 display: none;
             }
 
-            .tab[active] {
+            .tab[selected] {
                 color: var(--text-color);
             }
             
@@ -73,7 +73,7 @@ class PlTabPanel extends PlElement {
                 transition: all 0.5s ease;
             }
 
-            .tab[active]::after {
+            .tab[selected]::after {
                 width: 100%;
                 content:'';
                 left: 0;
@@ -92,7 +92,7 @@ class PlTabPanel extends PlElement {
                 height: 100%;
             }
 
-            .content ::slotted(:not([active])) {
+            .content ::slotted(:not([selected])) {
                 display: none;
             }
       `;
@@ -103,7 +103,7 @@ class PlTabPanel extends PlElement {
             <div id="header" class="tab-header">
                 <pl-repeat items="[[_tabs]]" id="tab-repiter">
                     <template>
-                        <div class="tab" active$="[[item.active]]" on-click="[[onTabClick]]">
+                        <div class="tab" selected$="[[item.selected]]" on-click="[[onTabClick]]">
                             <span>[[item.header]]</span>
                         </div>
                     </template>
@@ -128,12 +128,12 @@ class PlTabPanel extends PlElement {
 
         const tabs = Array.prototype.slice.call(this.querySelectorAll(':scope > pl-tab'))
             .map((tab, idx) => {
-                if (tab.hidden && tab.active) {
+                if (tab.hidden && tab.selected) {
                     isHiddenItem = true;
                 }
-                tab.active = idx == 0;
+                tab.selected = idx == 0;
                 return {
-                    active: idx == 0,
+                    selected: idx == 0,
                     header: tab.header,
                     hidden: tab.hidden,
                     disabled: tab.disabled,
@@ -143,8 +143,8 @@ class PlTabPanel extends PlElement {
 
         tabs.find((item, index) => {
             if (!item.hidden && isHiddenItem) {
-                item.active = true;
-                this.active = index;
+                item.selected = true;
+                this.selected = index;
                 return true;
             }
         });
@@ -156,8 +156,8 @@ class PlTabPanel extends PlElement {
 
     onTabClick(event) {
         this._tabs.forEach((el, idx) => {
-            el.node.active = el == event.model.item;
-            this.set(`_tabs.${idx}.active`, el == event.model.item);
+            el.node.selected = el == event.model.item;
+            this.set(`_tabs.${idx}.selected`, el == event.model.item);
         });
     }
 }
