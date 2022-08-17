@@ -1,27 +1,21 @@
 import { PlElement, html, css } from "polylib";
 
 class PlTab extends PlElement {
-	static get properties() {
-		return {
-			header: { type: String },
-			selected: { type: Boolean, reflectToAttribute: true },
-			hidden: { type: Boolean, reflectToAttribute: true }
+	static properties = {
+		header: { type: String },
+		selected: { type: Boolean, reflectToAttribute: true },
+		hidden: { type: Boolean, reflectToAttribute: true }
+	}
+
+	static css = css`
+		:host([hidden]) {
+			display: none;
 		}
-	}
+	`;
 
-	static get template() {
-		return html`
-	      <slot></slot>
-      	`;
-	}
-
-	static get css() {
-		return css`
-            :host([hidden]) {
-                display: none;
-            }
-        `;
-	}
+	static template = html`
+		<slot></slot>
+	`;
 
 	connectedCallback() {
 		super.connectedCallback();
