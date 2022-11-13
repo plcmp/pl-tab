@@ -47,6 +47,10 @@ class PlTabPanel extends PlElement {
             position: relative;
         }
 
+        .tab[hidden] {
+            display: none;
+        }
+
         .suffix:empty, .prefix:empty {
             display: none;
         }
@@ -97,7 +101,7 @@ class PlTabPanel extends PlElement {
     static template = html`
         <div id="header" class="tab-header">
             <template d:repeat="[[_tabs]]">
-                <div class="tab" selected$="[[item.selected]]" on-click="[[onTabClick]]">
+                <div class="tab" hidden$="[[item.hidden]]" selected$="[[item.selected]]" on-click="[[onTabClick]]">
                     <span>[[item.header]]</span>
                 </div>
             </template>
