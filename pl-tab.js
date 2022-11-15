@@ -77,6 +77,11 @@ class PlTab extends PlElement {
 		:host(:hover), :host([selected]) {
             color: var(--primary-base);
         }
+
+		.tab-content ::slotted(*) {
+			width: 100%;
+			height: 100%;
+		}
 	`;
 
 	static template = html`
