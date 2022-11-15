@@ -1,6 +1,6 @@
 {
     "name": "@plcmp/pl-tabpanel",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Simple tabpanel with tabs.",
     "main": "pl-tabpanel.js",
     "repository": {
