@@ -20,7 +20,7 @@ class PlTabPanel extends PlElement {
             border-bottom: 1px solid var(--grey-base);
             width: 100%;
             position: absolute;
-            top: 40px;
+            top: 32px;
         }
     `;
 
@@ -46,13 +46,21 @@ class PlTabPanel extends PlElement {
 
     }
 
+    async beforeSelect() {
+        return true;
+    }
+
     async onSelectTab(event) {
-        let tabs = Array.prototype.slice.call(this.querySelectorAll(':scope > pl-tab')).filter(x => x != event.target);
+        const res = await this.beforeSelect();
+        if(!res) {
+            return false;
+        }
+        let tabs = Array.prototype.slice.call(this.querySelectorAll(':scope > pl-tab')).filter(x => x != event.detail.tab);
         tabs.forEach(tab => {
             tab.selected = false;
         });
 
-        event.target.selected = true;
+        event.detail.tab.selected = true;
     }
 }
 

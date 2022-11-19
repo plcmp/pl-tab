@@ -12,7 +12,7 @@ class PlTab extends PlElement {
 		:host {
 			display: flex;
 			flex-direction: column;
-			color: var(--grey-darkest);
+			--pl-tab-text-color: var(--grey-darkest);
 		}
 
 		:host([hidden]) {
@@ -23,18 +23,19 @@ class PlTab extends PlElement {
 			display: flex;
 			user-select: none;
 			flex-shrink: 0;
+			color: var(--pl-tab-text-color);
+			padding: 0 4px;
+			cursor: pointer;
 		}
 
 		.header {
             width: 100%;
-            height: 40px;
+            height: 32px;
             display: flex;
             flex-direction: row;
-            gap: 8px;
             box-sizing: border-box;
             background: transparent;
 			align-items: center;
-			cursor: pointer;
 			position: relative;
 		}
 
@@ -53,10 +54,12 @@ class PlTab extends PlElement {
 			display: none;
 			overflow: hidden;
 			width: 100%;
-			height: calc(100% - 48px);
+			height: calc(100% - 32px);
 			position: absolute;
 			left: 0px;
-			top: 48px;
+			top: 32px;
+			padding-top: var(--space-md);
+			box-sizing: border-box;
 		}
 
 		:host([disabled]) {
@@ -75,7 +78,7 @@ class PlTab extends PlElement {
         }
 
 		:host(:hover), :host([selected]) {
-            color: var(--primary-base);
+            --pl-tab-text-color: var(--primary-base);
         }
 
 		.tab-content ::slotted(*) {
@@ -97,7 +100,10 @@ class PlTab extends PlElement {
 
 	onSelectClick() {
 		this.dispatchEvent(new CustomEvent('select-tab', {
-			bubbles: true
+			bubbles: true,
+			detail: {
+				tab: this
+			}
 		}));
 	}
 }
