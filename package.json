@@ -1,6 +1,6 @@
 {
     "name": "@plcmp/pl-tabpanel",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "Simple tabpanel with tabs.",
     "main": "pl-tabpanel.js",
     "repository": {
@@ -23,6 +23,8 @@
         }
     ],
     "dependencies": {
-        "polylib": "^1.1.4"
+        "polylib": "^1.1.9",
+        "@plcmp/utils": "^0.1.1",
+        "@plcmp/pl-icon-button": "^0.1.7"
     }
 }

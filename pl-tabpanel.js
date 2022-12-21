@@ -2,6 +2,7 @@ import { PlElement, html, css, } from "polylib";
 import { throttle } from '@plcmp/utils';
 
 import './pl-tab.js';
+import '@plcmp/pl-icon-button';
 
 class PlTabPanel extends PlElement {
     static properties = {
