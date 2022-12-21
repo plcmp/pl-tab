@@ -10,8 +10,7 @@ class PlTab extends PlElement {
 
 	static css = css`
 		:host {
-			display: flex;
-			flex-direction: column;
+			display: inline-block;
 			--pl-tab-text-color: var(--grey-darkest);
 		}
 
@@ -60,6 +59,7 @@ class PlTab extends PlElement {
 			top: 32px;
 			padding-top: var(--space-md);
 			box-sizing: border-box;
+			white-space: normal;
 		}
 
 		:host([disabled]) {
