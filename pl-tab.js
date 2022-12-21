@@ -63,8 +63,12 @@ class PlTab extends PlElement {
 		}
 
 		:host([disabled]) {
+			cursor: not-allowed;
+			--pl-tab-text-color: var(--grey-dark);
+		}
+
+		:host([disabled]) .header {
 			pointer-events: none;
-			color: var(--grey-dark);
 		}
 
 		:host([selected]) .tab-content {
@@ -77,7 +81,7 @@ class PlTab extends PlElement {
             left: 0;
         }
 
-		:host(:hover), :host([selected]) {
+		.header:hover, :host([selected]) {
             --pl-tab-text-color: var(--primary-base);
         }
 	`;
