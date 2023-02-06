@@ -80,6 +80,12 @@ class PlTabPanel extends PlElement {
             });
         }, 0)
 
+        const observer = new MutationObserver((mutationsList) => {
+            this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
+
+        });
+        observer.observe(this, { attributes: true, subtree: true });
+
         const resizeObserver = new ResizeObserver((resizes) => {
             let throttler = throttle(() => {
                 this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
