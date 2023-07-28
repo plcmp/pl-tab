@@ -6,7 +6,7 @@ import '@plcmp/pl-icon-button';
 
 class PlTabPanel extends PlElement {
     static properties = {
-        selected: { type: Number, value: 0 },
+        selected: { type: String, value: undefined, observer: 'selectedObserver' },
         arrowsVisible: { type: Boolean, reflectToAttribute: true, value: true }
     }
 
@@ -69,16 +69,6 @@ class PlTabPanel extends PlElement {
         super.connectedCallback();
         this.addEventListener('select-tab', this.onSelectTab)
         this.scrollAmount = 0;
-        setTimeout(() => {
-            let tabs = Array.prototype.slice.call(this.querySelectorAll(':scope > pl-tab'));
-            tabs.forEach((tab, idx) => {
-                if (idx == this.selected) {
-                    tab.selected = true;
-                } else {
-                    tab.selected = false;
-                }
-            });
-        }, 0)
 
         const observer = new MutationObserver((mutationsList) => {
             this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
@@ -96,6 +86,15 @@ class PlTabPanel extends PlElement {
 
         resizeObserver.observe(this.$.tabs);
 
+        setTimeout(() => {
+            let tabs = this._getTabs();
+        
+            if(!this.selected && tabs.length > 0) {
+                this.selected = tabs[0].name;
+            } else {
+                this.selectedObserver(this.selected)
+            }
+        }, 0)
     }
 
     async beforeSelect() {
@@ -107,16 +106,21 @@ class PlTabPanel extends PlElement {
         if (!res) {
             return false;
         }
-        let tabs = Array.prototype.slice.call(this.querySelectorAll(':scope > pl-tab')).filter(x => x != event.detail.tab);
+        this.selected = event.detail.tab.name;
+    }
+
+    selectedObserver(val) {
+        let tabs = this._getTabs();
         tabs.forEach(tab => {
             tab.selected = false;
         });
 
-        event.detail.tab.selected = true;
+        let selectedTab = tabs.find(x => x.name == val);
+        selectedTab.selected = true;
     }
 
     scrollLeft() {
-        if(this.scrollAmount > 0) {
+        if (this.scrollAmount > 0) {
             this.$.tabs.scrollTo({
                 left: this.scrollAmount -= 100,
                 behavior: 'smooth'
@@ -125,12 +129,16 @@ class PlTabPanel extends PlElement {
     }
 
     scrollRight() {
-        if(this.scrollAmount < this.scrollWidth) {
+        if (this.scrollAmount < this.scrollWidth) {
             this.$.tabs.scrollTo({
                 left: this.scrollAmount += 100,
                 behavior: 'smooth'
             });
         }
+    }
+
+    _getTabs() {
+        return Array.prototype.slice.call(this.querySelectorAll(':scope > pl-tab'));
     }
 }
 

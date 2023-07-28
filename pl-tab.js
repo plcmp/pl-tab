@@ -5,7 +5,8 @@ class PlTab extends PlElement {
 		header: { type: String },
 		selected: { type: Boolean, reflectToAttribute: true },
 		hidden: { type: Boolean, reflectToAttribute: true },
-		disabled: { type: Boolean, reflectToAttribute: true }
+		disabled: { type: Boolean, reflectToAttribute: true },
+		name: { type: String }
 	}
 
 	static css = css`
@@ -64,7 +65,7 @@ class PlTab extends PlElement {
 
 		:host([disabled]) {
 			cursor: not-allowed;
-			--pl-tab-text-color: var(--grey-dark);
+			--pl-tab-text-color: var(--grey-base);
 		}
 
 		:host([disabled]) .header {
@@ -96,6 +97,13 @@ class PlTab extends PlElement {
 			<slot></slot>
 		</div>
 	`;
+
+	connectedCallback(){
+		super.connectedCallback();
+		if(!this.name) {
+			this.name = (Math.random() + 1).toString(36).substring(2);
+		}
+	}
 
 	onSelectClick() {
 		this.dispatchEvent(new CustomEvent('select-tab', {
