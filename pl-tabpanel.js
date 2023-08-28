@@ -102,6 +102,8 @@ class PlTabPanel extends PlElement {
     }
 
     async onSelectTab(event) {
+        event.stopPropagation();
+
         const res = await this.beforeSelect(event.detail.tab);
         if (!res) {
             return false;
