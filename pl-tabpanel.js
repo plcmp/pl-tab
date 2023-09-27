@@ -69,27 +69,27 @@ class PlTabPanel extends PlElement {
         super.connectedCallback();
         this.addEventListener('select-tab', this.onSelectTab)
         this.scrollAmount = 0;
+        this.navTabsTravelDistance = 150;
 
-        const observer = new MutationObserver((mutationsList) => {
+        const observer = new MutationObserver(() => {
             this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
-
+            this.$.tabs.scrollTo({
+                left: this.$.tabs.scrollWidth + this.navTabsTravelDistance,
+                behavior: 'smooth'
+            });
         });
+
         observer.observe(this, { attributes: true, subtree: true });
-
-        const resizeObserver = new ResizeObserver((resizes) => {
-            let throttler = throttle(() => {
-                this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
-            }, 300)
-
-            throttler();
-        });
+        const resizeObserver = new ResizeObserver(throttle(() => {
+            this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
+        }, 300));
 
         resizeObserver.observe(this.$.tabs);
 
         setTimeout(() => {
             let tabs = this._getTabs();
-        
-            if(!this.selected && tabs.length > 0) {
+
+            if (!this.selected && tabs.length > 0) {
                 this.selected = tabs[0].name;
             } else {
                 this.selectedObserver(this.selected)
@@ -122,21 +122,43 @@ class PlTabPanel extends PlElement {
     }
 
     scrollLeft() {
-        if (this.scrollAmount > 0) {
+        var currentScrollPos = this.$.tabs.scrollLeft;
+        if (currentScrollPos > this.navTabsTravelDistance) {
             this.$.tabs.scrollTo({
-                left: this.scrollAmount -= 100,
+                left: currentScrollPos - this.navTabsTravelDistance,
+                behavior: 'smooth'
+            });
+
+        } else {
+            this.$.tabs.scrollTo({
+                left: 0,
                 behavior: 'smooth'
             });
         }
     }
 
     scrollRight() {
-        if (this.scrollAmount < this.scrollWidth) {
+        var scrollWidth = this.$.tabs.scrollWidth;
+
+        var currentScrollPos = scrollWidth - this.$.tabs.scrollLeft;
+
+        if (currentScrollPos > this.navTabsTravelDistance) {
             this.$.tabs.scrollTo({
-                left: this.scrollAmount += 100,
+                left: this.$.tabs.scrollLeft + this.navTabsTravelDistance,
+                behavior: 'smooth'
+            });
+        } else if (currentScrollPos == this.navTabsTravelDistance) {
+            this.$.tabs.scrollTo({
+                left: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            this.$.tabs.scrollTo({
+                left: currentScrollPos,
                 behavior: 'smooth'
             });
         }
+
     }
 
     _getTabs() {
