@@ -69,14 +69,16 @@ class PlTabPanel extends PlElement {
         super.connectedCallback();
         this.addEventListener('select-tab', this.onSelectTab)
         this.scrollAmount = 0;
-        this.navTabsTravelDistance = 150;
+        this.navTabsTravelDistance = 100;
 
-        const observer = new MutationObserver(() => {
+        const observer = new MutationObserver((mutations) => {
             this.arrowsVisible = this.scrollWidth < this.$.tabs.scrollWidth;
-            this.$.tabs.scrollTo({
-                left: this.$.tabs.scrollWidth + this.navTabsTravelDistance,
-                behavior: 'smooth'
-            });
+            if (mutations.length == 1 && mutations[0].attributeName == 'selected') {
+                this.$.tabs.scrollTo({
+                    left: mutations[0].target.scrollLeft,
+                    behavior: 'smooth'
+                });
+            }
         });
 
         observer.observe(this, { attributes: true, subtree: true });
