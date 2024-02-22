@@ -19,24 +19,24 @@ class PlTabPanel extends PlElement {
         }
 
         #tabs {
+            display: flex;
+            height: var(--pl-base-size);
             width: 100%;
-            height: 32px;
+            gap: var(--pl-space-sm);
             box-sizing: border-box;
             overflow-y: hidden;
             overflow-x: hidden;
             white-space: nowrap;
-            display: flex;
-            gap: 8px;
         }
 
-        :host([arrows-visible]) #tabs ::slotted(*:first-of-type) { margin-left: 32px }
-        :host([arrows-visible]) #tabs ::slotted(*:last-of-type) { margin-right: 32px }
+        :host([arrows-visible]) #tabs ::slotted(*:first-of-type) { margin-left: var(--pl-base-size); }
+        :host([arrows-visible]) #tabs ::slotted(*:last-of-type) { margin-right: var(--pl-base-size); }
 
         .line {
-            border-bottom: 1px solid var(--grey-base);
+            border-bottom: 1px solid var(--pl-grey-base);
             width: 100%;
             position: absolute;
-            top: 32px;
+            top: var(--pl-base-size);
         }
 
         .left {
@@ -55,8 +55,8 @@ class PlTabPanel extends PlElement {
     `;
 
     static template = html`
-        <div class="line"></div>
-        <div id="tabs">
+        <div part="line" class="line"></div>
+        <div part="tabs" id="tabs">
             <pl-icon-button class="left" hidden="[[!arrowsVisible]]" variant="link" iconset="pl-default" size="16"
                 icon="chevron-left" on-click="[[scrollLeft]]"></pl-icon-button>
             <slot></slot>

@@ -10,11 +10,6 @@ class PlTab extends PlElement {
 	}
 
 	static css = css`
-		:host {
-			display: inline-block;
-			--pl-tab-text-color: var(--grey-darkest);
-		}
-
 		:host([hidden]) {
 			display: none;
 		}
@@ -23,20 +18,20 @@ class PlTab extends PlElement {
 			display: flex;
 			user-select: none;
 			flex-shrink: 0;
-			color: var(--pl-tab-text-color);
-			padding: 0 4px;
+			padding: 0 var(--pl-space-sm);
 			cursor: pointer;
 		}
 
 		.header {
-            width: 100%;
-            height: 32px;
-            display: flex;
+			display: flex;
             flex-direction: row;
+			height: var(--pl-base-size);
+            width: 100%;
             box-sizing: border-box;
             background: transparent;
 			align-items: center;
 			position: relative;
+			color: var(--pl-header-color);
 		}
 
 		.header::after {
@@ -46,34 +41,34 @@ class PlTab extends PlElement {
             left: 50%;
             height: 2px;
             width: 0%;
-            background: var(--primary-base);
+            background: var(--pl-primary-base);
             transition: all 0.5s ease;
         }
 
-		.tab-content {
+		.content {
 			display: none;
-			overflow: hidden;
-			width: 100%;
-			height: calc(100% - 32px);
-			position: absolute;
-			left: 0px;
-			top: 32px;
-			padding-top: var(--space-md);
-			box-sizing: border-box;
-			white-space: normal;
 		}
 
 		:host([disabled]) {
 			cursor: not-allowed;
-			--pl-tab-text-color: var(--grey-base);
 		}
 
 		:host([disabled]) .header {
 			pointer-events: none;
+			color: var(--pl-grey-base);
 		}
 
-		:host([selected]) .tab-content {
+		:host([selected]) .content {
+			position: absolute;
 			display: block;
+			height: calc(100% - var(--pl-base-size));
+			width: 100%;
+			overflow: hidden;
+			left: 0;
+			top: var(--pl-base-size);
+			padding-top: var(--pl-space-md);
+			box-sizing: border-box;
+			white-space: normal;
 		}
 
 		:host([selected]) .header::after {
@@ -83,17 +78,20 @@ class PlTab extends PlElement {
         }
 
 		.header:hover, :host([selected]) {
-            --pl-tab-text-color: var(--primary-base);
+            color: var(--pl-primary-base);
         }
 	`;
 
 	static template = html`
-		<div class="header" on-click="[[onSelectClick]]">
+		<div part="header" class="header" on-click="[[onSelectClick]]">
 			<slot name="prefix"></slot>
-			<div class="header-text">[[header]]</div>
+			<div class="header-text">
+				<slot name="icon"></slot>
+				<span>[[header]]</span>
+			</div>
 			<slot name="suffix"></slot>
 		</div>
-		<div class="tab-content">
+		<div part="content" class="content">
 			<slot></slot>
 		</div>
 	`;
