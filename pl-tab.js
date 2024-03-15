@@ -86,7 +86,7 @@ class PlTab extends PlElement {
 		<div part="header" class="header" on-click="[[onSelectClick]]">
 			<slot name="prefix"></slot>
 			<div class="header-text">
-				<slot name="icon"></slot>
+				<slot name="header"></slot>
 				<span>[[header]]</span>
 			</div>
 			<slot name="suffix"></slot>
