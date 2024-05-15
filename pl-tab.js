@@ -77,7 +77,7 @@ class PlTab extends PlElement {
             left: 0;
         }
 
-		.header:hover, :host([selected]) {
+		.header:hover, :host([selected]) .header{
             color: var(--pl-primary-base);
         }
 	`;
